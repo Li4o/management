@@ -1,4 +1,3 @@
-# Management App
-> **An app use to manage very kind of inventory.**
-> **It is highly versatile.**
-> **Users can create custom category however they like.**
+# Flexible Inventory Manager
+> **A highly versatile app designed to manage any type of inventory.**
+> **User can easily customize and define your own categories to fit your needs.**
