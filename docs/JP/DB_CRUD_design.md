@@ -63,9 +63,9 @@ CREATE INDEX idx_items_custom_values ON items USING gin (custom_values);
 
 ---
 
-## 3. CRUD API Endpoints
+## 3. エンドポイント
 
-全てのエンドポイントを`/api/v1`で仮固定する。
+すべてのAPIエンドポイントは`/api/v1`をベースパスとする。
 
 ### 3.1 認証 (`/auth`)
 | HTTPメソッド | エンドポイント | 説明 |
@@ -80,7 +80,7 @@ CREATE INDEX idx_items_custom_values ON items USING gin (custom_values);
 | `POST` | `/custom-fields` | カスタムフィールド(Text or Select)を作成する |
 | `DELETE` | `/custom-fields/:id` | カスタムフィールドを削除する |
 
-### 3.3 Inventory Management (`/items`)
+### 3.3 備品管理 (`/items`)
 | HTTPメソッド | エンドポイント | 説明 |
 | :--- | :--- | :--- |
 | `GET` | `/items` | 管理項目の一覧表示と絞り込み |
