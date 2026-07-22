@@ -1,5 +1,8 @@
 # UI design
 
+This document details the UI for the **Flexible Inventory Manager** application.
+
+## UI overview
 1. Authetication
    User atuhentication and session management.
 2. Item List
