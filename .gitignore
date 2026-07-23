@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+
+# AI Tools & Local Logs
+.agents/
+.claude/
+.windsurf/
+skills-lock.json
+
+# IDE / Editor settings
+.vscode/
+.idea/
+*.code-workspace
+
+# Build outputs
+dist/
+build/
+
+# System / OS files
+*.log
+.DS_Store
+Thumbs.db
