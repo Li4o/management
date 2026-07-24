@@ -61,7 +61,7 @@
 | `id` | String | `@id @default(uuid())` | ユニーク主キー |
 | `name` | String | - | フィールド名 |
 | `type` | FieldType | - | 入力タイプ(TEXT/SELECT) |
-| `options` | Json | - | ??? |
+| `options` | Json | - | SELECTの選択肢 |
 | `createdBy` | String | Foreign Key | `Users.name`参照 |
 | `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 
@@ -101,9 +101,9 @@
 ### カスタムフィールドの作成 (`POST /api/v1/custom-fields`)
 ```json
 {
-  "fieldName": "Location",
-  "fieldType": "select",
-  "selectOptions": ["Warehouse A", "Warehouse B", "Office 3F"],
+  "fieldName": "保管場所",
+  "fieldType": "SELECT",
+  "selectOptions": ["倉庫A", "倉庫B", "オフィス3階"],
   "isRequired": false
 }
 ```
@@ -115,8 +115,8 @@
   "itemNumber": "NB-2026-001",
   "status": "In Stock",
   "customValues": {
-    "Location": "Office 3F",
-    "Serial Number": "C02G1234MD6R"
+    "保管場所": "オフィス3階",
+    "シリアルナンバー": "C02G1234MD6R"
   }
 }
 ```
