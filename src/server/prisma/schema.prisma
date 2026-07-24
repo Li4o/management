@@ -13,10 +13,84 @@ generator client {
 
 // Item table
 model Item {
+  id            String      @id @default(uuid())
+  assetTag      String?     @unique
+  name          String
+  category      String
+  status        AssetStatus @default(AVAILABLE)
+  location      String
+  customFields  Json?  
+  description   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
+  Logs     AssetLog[]
+
+  @@map("items")
 }
 
-// Stock Logs
-model StockLog {
-  
+
+// Asset Logs
+model AssetLog {
+  id        String      @id @default(uuid())
+  itemId    String
+  action    ActionType
+  reason    String
+  createdBy String
+  createdAt DateTime    @default(now())
+
+  item    Item        @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  users   Users       @relation(fields: [createdBy], references: [name])
+
+  @@map("assetLogs")
+}
+
+// User
+model Users {
+  id            String      @id @default(uuid())
+  name          String      @unique
+  email         String?
+  passwordHash  String
+  createdAt     DateTime    @default(now())
+
+  Logs    AssetLog[]
+  Field   CustomFields[]
+
+  @@map("users")
+}
+
+// Custom Field
+model CustomFields {
+  id        String        @id @default(uuid())
+  name      String
+  type      FieldType
+  options   Json
+  createdAt DateTime      @default(now())
+  createdBy String
+
+  users   Users       @relation(fields: [createdBy], references: [name])
+
+  @@map("customField")
+}
+
+// Asset Status
+enum AssetStatus {
+  AVAILABLE
+  IN_USE
+  MAINTENANCE
+  DISPOSED
+}
+
+// Action Type
+enum ActionType {
+  CHECK_OUT
+  CHECK_IN
+  MAINTENANCE
+  DISPOSED
+}
+
+// Field Type
+enum FieldType {
+  TEXT
+  SELECT
 }
