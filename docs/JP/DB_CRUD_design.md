@@ -12,54 +12,59 @@
 
 ---
 
-## 2. データベーススキーマ (PostgreSQL DDL)
+## 2. データベーススキーマ (Prisma Models)
 
-### 2.1 `users` Table
-認証情報とプロフィールを保存する。
-
-```sql
-CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    name VARCHAR(100) NOT NULL,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### 2.2 `custom_field_definitions` Table
-登録された自由入力("Storage Location", "Serial Number" 等)とその設定(`text` or `select`)を保存する。
-
-```sql
-CREATE TABLE custom_field_definitions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    field_name VARCHAR(100) NOT NULL,
-    field_type VARCHAR(20) NOT NULL CHECK (field_type IN ('text', 'select')),
-    select_options JSONB DEFAULT '[]'::jsonb, -- e.g., ["Warehouse A", "Warehouse B"]
-    is_required BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-```
-
-### 2.3 `items` Table
+### 2.1 `items` Table
 基本項目とその詳細を`custom_values`に保存する。
 
-```sql
-CREATE TABLE items (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    name VARCHAR(255) NOT NULL,
-    item_number VARCHAR(100),
-    status VARCHAR(50) DEFAULT 'In Stock',
-    custom_values JSONB DEFAULT '{}'::jsonb, -- e.g., {"Location": "Warehouse A", "Serial": "SN-1234"}
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
+| Field Name | Data Type | Attributes | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `assetTag` | String? | `@unique` | 管理番号 |
+| `name` | String | - | 備品名 |
+| `category` | String? | - | カテゴリー |
+| `status` | AssetStatus | `@default(AVAILABLE)` | 現在のステータス(使用可能/使用中 等)|
+| `location` | String? | - | 使用/管理場所 |
+| `customFields` | Json? | - | JSONフィールド |
+| `description` | String? | - | 詳細説明 |
+| `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
+| `updatedAt` | DateTime | `@updatedAt` | 更新日時記録 |
 
--- Index for searching dynamic attributes inside JSONB
-CREATE INDEX idx_items_custom_values ON items USING gin (custom_values);
-```
+### 2.2 `asset_logs` Model (History)
+備品の移動を追跡し、記録を保存する。
+
+| Field Name | Data Type | Attributes | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `itemId` | String | Foreign Key | `Item.id`参照 |
+| `action` | ActionType | - | 状態変更(貸出/返却/修理/廃棄) |
+| `reason` | String? | - | 変更理由 |
+| `createdBy` | String | Foreign Key | `Users.name`参照 |
+| `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
+
+### 2.3 `users` Table
+認証情報とプロフィールを保存する。
+
+| Field Name | Data Type | Attributes | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `name` | String | - | ユーザー名 |
+| `email` | String? | - | ユーザーメールアドレス |
+| `passwordHash` | String | - | パスワード |
+| `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
+
+### 2.4 `custom_field_definitions` Table
+登録された自由入力("Storage Location", "Serial Number" 等)とその設定(`text` or `select`)を保存する。
+
+| Field Name | Data Type | Attributes | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `name` | String | - | フィールド名 |
+| `type` | FieldType | - | 入力タイプ(TEXT/SELECT) |
+| `options` | Json | - | ??? |
+| `createdBy` | String | Foreign Key | `Users.name`参照 |
+| `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
+
 
 ---
 
@@ -91,15 +96,15 @@ CREATE INDEX idx_items_custom_values ON items USING gin (custom_values);
 
 ---
 
-## 4. Sample JSON Payloads
+## 4. サンプルデータ
 
 ### カスタムフィールドの作成 (`POST /api/v1/custom-fields`)
 ```json
 {
-  "field_name": "Location",
-  "field_type": "select",
-  "select_options": ["Warehouse A", "Warehouse B", "Office 3F"],
-  "is_required": false
+  "fieldName": "Location",
+  "fieldType": "select",
+  "selectOptions": ["Warehouse A", "Warehouse B", "Office 3F"],
+  "isRequired": false
 }
 ```
 
@@ -107,9 +112,9 @@ CREATE INDEX idx_items_custom_values ON items USING gin (custom_values);
 ```json
 {
   "name": "MacBook Pro 16",
-  "item_number": "NB-2026-001",
+  "itemNumber": "NB-2026-001",
   "status": "In Stock",
-  "custom_values": {
+  "customValues": {
     "Location": "Office 3F",
     "Serial Number": "C02G1234MD6R"
   }
