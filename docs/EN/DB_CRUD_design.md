@@ -77,43 +77,76 @@ All endpoints are prefixed with `/api/v1`.
 | `POST` | `/auth/signup` | Register a new user account |
 | `POST` | `/auth/login` | Authenticate user & issue JWT token |
 
-### 3.2 Custom Field Settings (`/custom-fields`)
+### 3.2 Users (`/users`)
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/custom-fields` | Retrieve all custom field definitions for the logged-in user |
-| `POST` | `/custom-fields` | Create a new custom field (Text or Select type) |
-| `DELETE` | `/custom-fields/:id` | Remove a custom field definition |
+| `GET` | `/users` | List & filter users |
+| `GET` | `/users/:id` | Get detailed information for user |
+| `PUT` | `/users/:id` | Update an user's information |
+| `DELETE` | `/users/:id` | Delete an user |
 
-### 3.3 Inventory Management (`/items`)
+### 3.3 User (`/users/me`)
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
-| `GET` | `/items` | List & filter inventory items |
-| `POST` | `/items` | Create a new inventory item |
-| `GET` | `/items/:id` | Get detailed information for a single item |
-| `PUT` | `/items/:id` | Update an existing item's core or dynamic data |
-| `DELETE` | `/items/:id` | Delete an inventory item |
+| `GET` | `/users/me` | Get user information |
+| `PUT` | `/users/me` | Update a user information |
+
+### 3.4 Class Management (`/classes`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/classes` | List classes |
+| `POST` | `/classes` | Create a new class |
+| `PUT` | `/classes/:class` | Update a class information |
+| `DELETE` | `/classes/:class` | Remove a class |
+
+### 3.5 Custom Field Settings (`/classes/:classId/custom-fields`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/classes/:classId/custom-fields` | Retrieve all custom field definitions for the logged-in user |
+| `POST` | `/classes/:classId/custom-fields` | Create a new custom field (Text or Select type) |
+| `DELETE` | `/classes/:classId/custom-fields/:id` | Remove a custom field definition |
+
+### 3.6 Inventory Management (`/classes/:classId/items`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/classes/:classId/items` | List & filter inventory items |
+| `POST` | `/classes/:classId/items` | Create a new inventory item |
+| `GET` | `/classes/:classId/items/:id` | Get detailed information for a single item |
+| `PUT` | `/classes/:classId/items/:id` | Update an existing item's core or dynamic data |
+| `DELETE` | `/classes/:classId/items/:id` | Delete an inventory item |
+
+### 3.7 Setting (`/users/me/setting`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/users/me/setting` | Get setting information at own |
+| `PUT` | `/users/me/setting` | Update setting information at own |
+
+### 3.8 Logs (`/classes/:classId/logs`)
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/classes/:classId/logs` | List logs |
+| `GET` | `/classes/:classId/logs/:id` | Get detailed for a log |
 
 ---
 
 ## 4. Sample JSON Payloads
 
-### Creating a Custom Field Definition (`POST /api/v1/custom-fields`)
+### Creating a Custom Field Definition (POST /api/v1/classes/:classId/custom-fields)
 ```json
 {
-  "fieldName": "Location",
-  "fieldType": "SELECT",
-  "selectOptions": ["Warehouse A", "Warehouse B", "Office 3F"],
-  "isRequired": false
+  "name": "Location",
+  "type": "SELECT",
+  "options": ["Warehouse A", "Warehouse B", "Office 3F"]
 }
 ```
 
-### Creating an Item (`POST /api/v1/items`)
+### Creating an Item (POST /api/v1/classes/:classId/items)
 ```json
 {
   "name": "MacBook Pro 16",
-  "itemNumber": "NB-2026-001",
-  "status": "In Stock",
-  "customValues": {
+  "assetTag": "NB-2026-001",
+  "status": "AVAILABLE",
+  "customFields": {
     "Location": "Office 3F",
     "Serial Number": "C02G1234MD6R"
   }
