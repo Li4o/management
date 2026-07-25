@@ -26,8 +26,9 @@
 ### エンティティと関係性
 
 - **`users`**: 認証・ID・アプリへのアクセスを管理する。
-- **`custom_field_definitions`**: 動的な項目(`text` か `select` )の入力ルールや設定を保存する。
+- **`customField`**: 動的な項目(`text` か `select` )の入力ルールや設定を保存する。
 - **`items`**: 基本情報(名前など)と動的なJSONデータ(`custom_values`)を保存する。
+- **`assetLogs`**: 履歴を保存する。
 
 ---
 
@@ -38,7 +39,23 @@
 ### 認証
 - `POST /api/v1/auth/signup` - 新しいアカウントを登録する
 - `POST /api/v1/auth/login` - ユーザー認証とJWTトークンを発行する
-- 
+  
+### ユーザー情報
+- `GET /users` - ユーザーリ一覧
+- `GET /users/:id` - ユーザー毎の詳細情報取得
+- `PUT /users/:id` - ユーザー情報更新
+- `DELETE /users/:id` - ユーザー削除
+
+### ユーザー情報(自身)
+- `GET /users/me` - ユーザー情報取得
+- `PUT /users/me` - ユーザー情報更新
+
+### クラス
+- `GET /classes` - クラス一覧
+- `POST /classes` - 新規クラス作成
+- `PUT /classes/:class` - クラス情報更新
+- `DELETE /classes/:class` - クラス削除
+
 ### カスタムフィールド
 - `GET /api/v1/custom-fields` - ログインユーザーのカスタムフィールド一覧を取得する
 - `POST /api/v1/custom-fields` - カスタムフィールドの作成をする
@@ -50,7 +67,15 @@
 - `GET /api/v1/items/:id` - 単一項目の詳細情報の取得
 - `PUT /api/v1/items/:id` - 項目の詳細情報の更新
 - `DELETE /api/v1/items/:id` - 項目の削除
-- 
+
+### 設定
+- `GET /users/me/setting` - 自身の設定情報取得
+- `PUT /users/me/setting` - 設定情報更新
+
+### 履歴
+- `GET /users/me/setting` - 自身の設定情報取得
+- `PUT /users/me/setting` - 設定情報更新
+
 ---
 
 ## 📁 リポジトリ構成

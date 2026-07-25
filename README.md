@@ -31,8 +31,9 @@ The application leverages a **Hybrid JSON Strategy** to handle custom dynamic at
 ### Core Entities & Relationships
 
 - **`users`**: Manages authentication, identity, and workspace access.
-- **`custom_field_definitions`**: Stores schema rules for dynamic fields (`text` vs. `select` options).
+- **`customField`**: Stores schema rules for dynamic fields (`text` vs. `select` options).
 - **`items`**: Stores core item attributes (Name, Status) and variable JSON data (`custom_values`).
+- **`assetLogs`**: Stores logs data.
 
 ---
 
@@ -43,6 +44,22 @@ All API endpoints are prefixed with `/api/v1`.
 ### Authentication
 - `POST /api/v1/auth/signup` - Register a new user
 - `POST /api/v1/auth/login` - Authenticate and issue JWT
+
+### Users
+- `GET /users` - List & filter users
+- `GET /users/:id` - Get detailed information for user
+- `PUT /users/:id` - Update an user's information
+- `DELETE /users/:id` - Delete an user
+
+### User
+- `GET /users/me` - Get user information
+- `PUT /users/me` - Update a user information
+
+### Class
+- `GET /classes` - List classes
+- `POST /classes` - Create a new class
+- `PUT /classes/:class` - Update a class information
+- `DELETE /classes/:class` - Remove a class
 
 ### Custom Fields
 - `GET /api/v1/custom-fields` - Get dynamic field definitions
@@ -55,6 +72,14 @@ All API endpoints are prefixed with `/api/v1`.
 - `GET /api/v1/items/:id` - Get item details
 - `PUT /api/v1/items/:id` - Update existing item
 - `DELETE /api/v1/items/:id` - Delete item
+
+### Setting
+- `GET /users/me/setting` - Get setting information at own
+- `PUT /users/me/setting` - Update setting information at own
+
+### Logs
+- `GET /classes/:classId/logs` - List logs
+- `GET /classes/:classId/logs/:id` - Get detailed for a log
 
 ---
 
