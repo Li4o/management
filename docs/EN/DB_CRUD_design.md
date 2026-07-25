@@ -131,7 +131,7 @@ All endpoints are prefixed with `/api/v1`.
 
 ## 4. Sample JSON Payloads
 
-### Creating a Custom Field Definition (POST /api/v1/classes/:classId/custom-fields)
+### Creating a Custom Field Definition (POST `/api/v1/classes/:classId/custom-fields`)
 ```json
 {
   "name": "Location",
@@ -140,7 +140,7 @@ All endpoints are prefixed with `/api/v1`.
 }
 ```
 
-### Creating an Item (POST /api/v1/classes/:classId/items)
+### Creating an Item (POST `/api/v1/classes/:classId/items`)
 ```json
 {
   "name": "MacBook Pro 16",

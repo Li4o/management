@@ -78,37 +78,69 @@
 | `POST` | `/auth/signup` | 新しいアカウントを登録する |
 | `POST` | `/auth/login` | ユーザー認証とJWTトークンを発行する |
 
-### 3.2 カスタムフィールド設定 (`/custom-fields`)
+### 3.2 ユーザー情報 (`/users`)
 | HTTPメソッド | エンドポイント | 説明 |
 | :--- | :--- | :--- |
-| `GET` | `/custom-fields` | ログインユーザーのカスタムフィールド一覧を取得する |
-| `POST` | `/custom-fields` | カスタムフィールド(Text or Select)を作成する |
-| `DELETE` | `/custom-fields/:id` | カスタムフィールドを削除する |
+| `GET` | `/users` | ユーザーリスト |
+| `GET` | `/users/:id` | ユーザー毎の詳細情報取得 |
+| `PUT` | `/users/:id` | ユーザー情報更新 |
+| `DELETE` | `/users/:id` | ユーザー削除 |
 
-### 3.3 備品管理 (`/items`)
+### 3.3 ユーザー情報(自身) (`/users/me`)
 | HTTPメソッド | エンドポイント | 説明 |
 | :--- | :--- | :--- |
-| `GET` | `/items` | 管理項目の一覧表示と絞り込み |
-| `POST` | `/items` | 新規管理項目の追加 |
-| `GET` | `/items/:id` | 単一項目の詳細情報の取得 |
-| `PUT` | `/items/:id` | 項目の詳細情報の更新 |
-| `DELETE` | `/items/:id` | 項目の削除 |
+| `GET` | `/users/me` | ユーザー情報取得 |
+| `PUT` | `/users/me` | ユーザー情報更新 |
 
+### 3.4 クラス管理 (`/classes`)
+| HTTPメソッド | エンドポイント | 説明 |
+| :--- | :--- | :--- |
+| `GET` | `/classes` | クラスリスト |
+| `POST` | `/classes` | 新規クラス作成 |
+| `PUT` | `/classes/:class` | クラス情報更新 |
+| `DELETE` | `/classes/:class` | クラス削除 |
+
+### 3.2 カスタムフィールド設定 (`/classes/:classId/custom-fields`)
+| HTTPメソッド | エンドポイント | 説明 |
+| :--- | :--- | :--- |
+| `GET` | `/classes/:classId/custom-fields` | ログインユーザーのカスタムフィールド一覧を取得する |
+| `POST` | `/classes/:classId/custom-fields` | カスタムフィールド(Text or Select)を作成する |
+| `DELETE` | `/classes/:classId/custom-fields/:id` | カスタムフィールドを削除する |
+
+### 3.3 備品管理 (`/classes/:classId/items`)
+| HTTPメソッド | エンドポイント | 説明 |
+| :--- | :--- | :--- |
+| `GET` | `/classes/:classId/items` | 管理項目の一覧表示と絞り込み |
+| `POST` | `/classes/:classId/items` | 新規管理項目の追加 |
+| `GET` | `/classes/:classId/items/:id` | 単一項目の詳細情報の取得 |
+| `PUT` | `/classes/:classId/items/:id` | 項目の詳細情報の更新 |
+| `DELETE` | `/classes/:classId/items/:id` | 項目の削除 |
+
+### 3.7 設定 (`/users/me/setting`)
+| HTTPメソッド | エンドポイント | 説明 |
+| :--- | :--- | :--- |
+| `GET` | `/users/me/setting` | 自身の設定情報取得 |
+| `PUT` | `/users/me/setting` | 設定情報更新 |
+
+### 3.8 履歴 (`/classes/:classId/logs`)
+| HTTPメソッド | エンドポイント | 説明 |
+| :--- | :--- | :--- |
+| `GET` | `/classes/:classId/logs` | 履歴取得 |
+| `GET` | `/classes/:classId/logs/:id` | 履歴詳細取得 |
 ---
 
 ## 4. サンプルデータ
 
-### カスタムフィールドの作成 (`POST /api/v1/custom-fields`)
+### カスタムフィールドの作成 (POST `/api/v1/classes/:classId/custom-fields`)
 ```json
 {
   "fieldName": "保管場所",
   "fieldType": "SELECT",
   "selectOptions": ["倉庫A", "倉庫B", "オフィス3階"],
-  "isRequired": false
 }
 ```
 
-### 項目追加 (`POST /api/v1/items`)
+### 項目追加 (POST `/api/v1/classes/:classId/items`)
 ```json
 {
   "name": "MacBook Pro 16",
