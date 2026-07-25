@@ -21,7 +21,7 @@
   - [ ] `POST /auth/signup` (ユーザー登録)
   - [ ] `POST /auth/login` (ログイン & JWTトークン)
 - [ ] ユーザー情報API構築 (`/api/v1/users`)
-  - [ ] | `GET /users` (ユーザーリ一覧)
+  - [ ] `GET /users` (ユーザー一覧)
   - [ ] `GET /users/:id` (ユーザー毎の詳細情報取得)
   - [ ] `PUT /users/:id` (ユーザー情報更新)
   - [ ] `DELETE /users/:id` (ユーザー削除)
