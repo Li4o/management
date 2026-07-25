@@ -21,7 +21,7 @@
   - [ ] `POST /auth/signup` (Register user)
   - [ ] `POST /auth/login` (User login & JWT token)
 - [ ] Build Users APIs (`/api/v1/users`)
-  - [ ] | `GET /users` (List & filter users)
+  - [ ] `GET /users` (List & filter users)
   - [ ] `GET /users/:id` (Get detailed information for user)
   - [ ] `PUT /users/:id` (Update an user's information)
   - [ ] `DELETE /users/:id` (Delete an user)
