@@ -81,7 +81,7 @@
 ### 3.2 ユーザー情報 (`/users`)
 | HTTPメソッド | エンドポイント | 説明 |
 | :--- | :--- | :--- |
-| `GET` | `/users` | ユーザーリスト |
+| `GET` | `/users` | ユーザー一覧 |
 | `GET` | `/users/:id` | ユーザー毎の詳細情報取得 |
 | `PUT` | `/users/:id` | ユーザー情報更新 |
 | `DELETE` | `/users/:id` | ユーザー削除 |
@@ -95,7 +95,7 @@
 ### 3.4 クラス管理 (`/classes`)
 | HTTPメソッド | エンドポイント | 説明 |
 | :--- | :--- | :--- |
-| `GET` | `/classes` | クラスリスト |
+| `GET` | `/classes` | クラス一覧 |
 | `POST` | `/classes` | 新規クラス作成 |
 | `PUT` | `/classes/:class` | クラス情報更新 |
 | `DELETE` | `/classes/:class` | クラス削除 |
