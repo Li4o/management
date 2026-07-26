@@ -17,7 +17,7 @@
 
 ## Phase 2: Backend Development
 - [x] Document CRUD API desing in `SB_CRUD_design.md`
-- [ ] Create seed data script (`prisma/seed.ts`) to insert initial test items
+- [x] Create seed data script (`prisma/seed.ts`) to insert initial test items
 - [ ] Build Authentication APIs (`/api/v1/auth`)
   - [ ] `POST /auth/signup` (Register user)
   - [ ] `POST /auth/login` (User login & JWT token)

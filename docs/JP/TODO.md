@@ -17,7 +17,7 @@
 
 ## フェーズ2: バックエンド開発
 - [x] CRUD API設計書(`SB_CRUD_design.md`)作成
-- [ ] 初回テスト備品のデータスクリプト(`prisma/seed.ts`)作成
+- [x] 初回テスト備品のデータスクリプト(`prisma/seed.ts`)作成
 - [ ] 認証API構築 (`/api/v1/auth`)
   - [ ] `POST /auth/signup` (ユーザー登録)
   - [ ] `POST /auth/login` (ログイン & JWTトークン)
