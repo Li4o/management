@@ -1,4 +1,4 @@
-import { PrismaClient } from `@prisma/client`;
+import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -8,7 +8,7 @@ async function main() {
     // 1. Create test user
     const testUser = await prisma.users.upsert({
         where:  { id: `test-user-id-001` },
-        update: {}.
+        update: {},
         create: {
             id:             `test-user-id-001`,
             name:           `test`,
@@ -20,20 +20,21 @@ async function main() {
     console.log(`👤 Created user: ${testUser.name}`);
 
     // 2. Create custom field
-    const locationField = await prisma.customFieldDefinitions.create({
+    const locationField = await prisma.customFields.create({
         data: {
-            name: `Locatin`,
-            type: `SELECT`,
-            optins: [`Warehouse A`, `Warehouse B`, `Office 3F`],
-            userId: testUser.id,
+            name:       `Locatin`,
+            type:       `SELECT`,
+            options:    [`Warehouse A`, `Warehouse B`, `Office 3F`],
+            createdBy:  testUser.id,
         },
     });
 
-    const serialField = await prisma.customFieldDefinitions.create({
+    const serialField = await prisma.customFields.create({
         data: {
-            name:   `SerialNumber`,
-            type:   `TEXT`,
-            userId: testUser.id, 
+            name:       `SerialNumber`,
+            type:       `TEXT`,
+            options:    [],
+            createdBy:  testUser.id, 
         },
     });
 
@@ -57,12 +58,12 @@ async function main() {
 
     const item2 = await prisma.item.create({
         data: {
-            assetTag: 'CAM-2026-002',
-            name: 'Sony a7 IV',
-            category: 'Camera',
-            status: 'IN_USE',
-            location: 'WarehouseA',
-            description: 'Main camera',
+            assetTag:   'CAM-2026-002',
+            name:       'Sony a7 IV',
+            category:   'Camera',
+            status:     'IN_USE',
+            location:   'WarehouseA',
+            description:'Main camera',
             customFields: {
                 Location:       'WarehouseA',
                 SerialNumber:   'S01-98765432',
@@ -75,10 +76,10 @@ async function main() {
     // 4. Create assetLog
     await prisma.assetLog.create({
         data: {
-            itemId: item2.id,
-            userId: testuser.id,
-            action: `CHECH_OUT`
-            reason: `Event`,
+            itemId:     item2.id,
+            createdBy:  testUser.id,
+            action:     `CHECK_OUT`,
+            reason:     `Event`,
         },
     })
 
