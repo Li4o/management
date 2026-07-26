@@ -4,6 +4,7 @@
 - [ ] [ Phase 2: Backend API ]
 - [ ] [ Phase 3: Frontend UI ]
 - [ ] [ Phase 4: Integration ]
+- [ ] [ Phase 5: Infrastructure & Refactoring ]
 
 ---
 
@@ -62,3 +63,6 @@
 - [ ] Connect Frontend with Backend APIs
 - [ ] Test JSON dynamic custom fields behavior
 - [ ] Final bug fixes & documentation update
+
+## Phase 5: Infrastructure & Refactoring
+- [ ] Mifrate databese enviroment to Docker (`docker-compose.yml` for PostgreSQL)
