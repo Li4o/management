@@ -1,7 +1,7 @@
-import { Request, Response } from "express";
-import { prisma } from "../lib/prisma";
+import type { Request, Response } from 'express';
+import { prisma } from '../lib/prisma.js';
 
-export const getUser = async (req: Request, res: Response) => {
+export const getUsers = async (req: Request, res: Response) => {
     try {
         // Fetch users from PostgreSQL
         const users = await prisma.users.findMany({
@@ -11,12 +11,12 @@ export const getUser = async (req: Request, res: Response) => {
                 email: true,
                 createdAt: true,
             },
-        }):
+        });
 
         res.status(200).json({
             success: true,
             data: users,
-        }):
+        });
     } catch (error) {
         console.error('Error fetching users:', error);
         res.status(500).json({
