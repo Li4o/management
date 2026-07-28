@@ -67,3 +67,24 @@ npx prisma init
 This command will create:
 - prisma/schema.prisma (Database models)
 - .env (Environment variables for DB connection URL)
+
+## Step 3.3: Configure Enciroment variable
+Set your PostgreSQL connection URL at a `.emv` file in `src/serve/`:
+
+```code
+DATABASE_URL="postgresql://postgres:YOUR_PASSWORD@localhost:5432/flexible_inventory?schema=public"
+```
+
+## Step 3.4: Run databese Migrations
+Apply schema changes to your local PostgreSQL database:
+
+```Bash
+npx prisma migrate dev --name init
+```
+
+## Step 3.5: Seed Initial Test Data
+Populate the database with test users, custom fieldsm, items, and logs.
+
+```Bash
+npx tsx prisma/seed.ts
+```
