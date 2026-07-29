@@ -87,11 +87,26 @@ All API endpoints are prefixed with `/api/v1`.
 
 ```text
 .
-├── 00.doc/            # Architecture specifications & design docs
-│   ├── UI_design.md
+├── docs/            # Architecture specifications & design docs
+│   ├── DB_CRUD_design.md
+│   ├── setup.md
+│   ├── TODO.md
 │   └── DB_CRUD_design.md
-├── 01.src/            # Application source code
+│
+├── src/            # Application source code
 │   ├── client/        # React + TypeScript Frontend
 │   └── server/        # Node.js + TypeScript Backend
+│       ├── prisma/
+│       │   ├── schema.prisma
+│       │   └── seed.ts
+│       └── src/
+│           ├── controllers/
+│           │   └── userController.ts
+│           ├── lib/
+│           │   └── prisma.ts
+│           ├── routes/
+│           │   └── userRoutes.ts
+│           └── index.ts
 ├── README.md          # Primary project documentation (English)
 └── README_JP.md       # Japanese project overview
+```
