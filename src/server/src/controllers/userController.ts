@@ -1,6 +1,7 @@
 import type { Request, Response } from 'express';
 import { prisma } from '../lib/prisma.js';
 
+// GET: Fetch all users
 export const getUsers = async (req: Request, res: Response) => {
     try {
         // Fetch users from PostgreSQL
@@ -18,10 +19,34 @@ export const getUsers = async (req: Request, res: Response) => {
             data: users,
         });
     } catch (error) {
-        console.error('Error fetching users:', error);
+        console.error('❌ Error fetching users:', error);
         res.status(500).json({
-            success:  false,
-            data: 'Internal server error'
+            success: false,
+            error: String(error)
+        });
+    }
+};
+
+// POST: Create a new user
+export const createUser = async (req: Request, res: Response) => {
+    try {
+        const { name, email, passwordHash } = req.body;
+
+        const newUser = await prisma.users.create({
+            data: {
+                name,
+                email,
+                passwordHash,
+            },
+            select: {id: true, name: true, email: true, createdAt: true },
+        });
+
+        res.status(201).json({ success: true, data: newUser });
+    } catch (error) {
+        console.error('❌ Error creating user:', error);
+        res.status(500).json({
+            success: false,
+            error: String(error)
         });
     }
 };
