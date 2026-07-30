@@ -119,9 +119,9 @@ export const deleteCustomField = async (req: Request, res: Response) => {
 export const getClasses = async (req: Request, res: Response) => {
     try {
         // Fetch classes from PostgreSQL
-        const classes = await prisma.classes.findMany();
+        const classes = await prisma.class.findMany();
 
-        res.status(200).json({ successL: true, data: classes });
+        res.status(200).json({ success: true, data: classes });
 
     } catch (error) {
         console.error('❌ Error fetching classes:', error);
@@ -132,12 +132,13 @@ export const getClasses = async (req: Request, res: Response) => {
 // POST: Create a new class
 export const createClass = async (req: Request, res: Response) => {
     try {
-        const { name, description } = req.body;
+        const { name, description, createdBy } = req.body;
 
-        const newClass = await prisma.classes.create({
+        const newClass = await prisma.class.create({
             data: {
                 name,
                 description,
+                createdBy,
             },
         });
 
