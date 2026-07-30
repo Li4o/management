@@ -72,6 +72,7 @@ Store class data.
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | Unique Primary Key |
 | `name` | String | - | Class name |
+| `description` | String? | - | Notes |
 | `createdBy` | String | Foreign Key | References `Users.name` |
 | `createdAt` | DateTime | `@default(now())` | Timestamp of the log |
 

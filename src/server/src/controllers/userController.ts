@@ -73,10 +73,13 @@ export const getClasses = async (req: Request, res: Response) => {
 // POST: Create a new class
 export const createClass = async (req: Request, res: Response) => {
     try {
-        const { name } = req.body;
+        const { name, description } = req.body;
 
         const newClass = await prisma.classes.create({
-            data: { name },
+            data: {
+                name,
+                description,
+            },
         });
 
         res.status(201).json({ success: true, data: newClass });

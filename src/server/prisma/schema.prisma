@@ -75,10 +75,11 @@ model CustomFields {
 
 // Class
 model Class {
-  id        String        @id @default(uuid())
-  name      String
-  createdBy String
-  createdAt DateTime      @default(now())
+  id          String        @id @default(uuid())
+  name        String
+  description String?
+  createdBy   String
+  createdAt   DateTime      @default(now())
 
   users   Users       @relation(fields: [createdBy], references: [id])
 
