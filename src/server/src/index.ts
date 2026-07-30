@@ -12,9 +12,8 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Mount User Routes
+// Mount Routes
 app.use('/api/v1/users', userRoutes);
-// Mount Class Routes
 app.use('/api/v1/classes', classRoutes);
 
 app.listen(PORT, () => {
