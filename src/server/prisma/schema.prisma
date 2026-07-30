@@ -29,7 +29,6 @@ model Item {
   @@map("items")
 }
 
-
 // Asset Logs
 model AssetLog {
   id        String      @id @default(uuid())
@@ -55,6 +54,7 @@ model Users {
 
   Logs    AssetLog[]
   Field   CustomFields[]
+  Class   Class[]
 
   @@map("users")
 }
@@ -65,12 +65,24 @@ model CustomFields {
   name      String
   type      FieldType
   options   Json
-  createdAt DateTime      @default(now())
   createdBy String
+  createdAt DateTime      @default(now())
 
   users   Users       @relation(fields: [createdBy], references: [id])
 
   @@map("customField")
+}
+
+// Class
+model Class {
+  id        String        @id @default(uuid())
+  name      String
+  createdBy String
+  createdAt DateTime      @default(now())
+
+  users   Users       @relation(fields: [createdBy], references: [id])
+
+  @@map("classes")
 }
 
 // Asset Status

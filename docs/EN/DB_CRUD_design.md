@@ -65,6 +65,15 @@ Defines dynamic input fields (e.g., "Storage Location", "Serial Number") and the
 | `createdBy` | String | Foreign Key | References `Users.name` |
 | `createdAt` | DateTime | `@default(now())` | Timestamp of the log |
 
+### 2.5 `class` Table
+Store class data.
+| Field Name | Data Type | Attributes | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | String | `@id @default(uuid())` | Unique Primary Key |
+| `name` | String | - | Class name |
+| `createdBy` | String | Foreign Key | References `Users.name` |
+| `createdAt` | DateTime | `@default(now())` | Timestamp of the log |
+
 ---
 
 ## 3. CRUD API Endpoints
