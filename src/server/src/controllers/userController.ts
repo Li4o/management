@@ -51,9 +51,38 @@ export const createUser = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.error('❌ Error creating user:', error);
-        res.status(500).json({
-            success: false,
-            error: String(error)
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// Class
+// GET: List classes
+export const getClasses = async (req: Request, res: Response) => {
+    try {
+        // Fetch classes from PostgreSQL
+        const classes = await prisma.classes.findMany();
+
+        res.status(200).json({ successL: true, data: classes });
+
+    } catch (error) {
+        console.error('❌ Error fetching classes:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// POST: Create a new class
+export const createClass = async (req: Request, res: Response) => {
+    try {
+        const { name } = req.body;
+
+        const newClass = await prisma.classes.create({
+            data: { name },
         });
+
+        res.status(201).json({ success: true, data: newClass });
+        
+    } catch (error) {
+        console.error('❌ Error fetching classes:', error);
+        res.status(500).json({ succuess: false, error: String(error) });
     }
 };
