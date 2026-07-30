@@ -100,7 +100,11 @@ export const createCustomField = async (req: Request, res: Response) => {
 // DELETE: Delete a custom field
 export const deleteCustomField = async (req: Request, res: Response) => {
     try {
-        const { id } = req.params;
+        const id = req.params.id as string;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' })
+        }
 
         const deletedCustomField = await prisma.customFields.delete({
             where: { id },
