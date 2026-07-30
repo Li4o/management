@@ -67,6 +67,7 @@ Defines dynamic input fields (e.g., "Storage Location", "Serial Number") and the
 
 ### 2.5 `class` Table
 Store class data.
+
 | Field Name | Data Type | Attributes | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | Unique Primary Key |

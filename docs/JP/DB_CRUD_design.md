@@ -65,6 +65,15 @@
 | `createdBy` | String | Foreign Key | `Users.name`参照 |
 | `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 
+### 2.5 `class` Table
+クラスデータを保存する。
+
+| Field Name | Data Type | Attributes | Description |
+| :--- | :--- | :--- | :--- |
+| `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `name` | String | - | フィールド名 |
+| `createdBy` | String | Foreign Key | `Users.name`参照 |
+| `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 
 ---
 
