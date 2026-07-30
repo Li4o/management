@@ -3,6 +3,45 @@ import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma.js';
 
 // Item
+// Get: Fetch all items
+export const getItems = async (req: Request, res: Response) => {
+    try {
+        const items = await prisma.item.findMany();
+        
+        res.status(200).json({ success: true, data: items});
+
+    } catch (error) {
+        console.error('❌ Error fetching items:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
+
+// POST: Create a new item
+export const createItem = async (req: Request, res: Response) => {
+    try {
+        const { name, category, status, createdBy } = req.body;
+
+        const newItem = await prisma.item.create({
+            data: {
+                name,
+                category,
+                status,
+                createdBy,
+            },
+        });
+    } catch (error) {
+        console.error('❌ Error creating item:', error);
+        res.status(500).json({ success: false, error: String(error) });  
+    }
+}
+
+// GET: Fitch the item detail
+
+
+// PUT: Update an existing item
+
+
+// DELETE: Delete an item
 
 // Asset Logs
 
