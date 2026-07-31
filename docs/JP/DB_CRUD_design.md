@@ -20,6 +20,7 @@
 | Field Name | Data Type | Attributes | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `classId` | String | Foreign Key | `Class.id`参照 |
 | `assetTag` | String? | `@unique` | 管理番号 |
 | `name` | String | - | 備品名 |
 | `category` | String? | - | カテゴリー |
@@ -27,10 +28,11 @@
 | `location` | String? | - | 使用/管理場所 |
 | `customFields` | Json? | - | JSONフィールド |
 | `description` | String? | - | 詳細説明 |
+| `cretaedBy` | String | Foreign Key | `Users.id`参照 |
 | `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 | `updatedAt` | DateTime | `@updatedAt` | 更新日時記録 |
 
-### 2.2 `asset_logs` Model (History)
+### 2.2 `asset_logs` Model (履歴)
 備品の移動を追跡し、記録を保存する。
 
 | Field Name | Data Type | Attributes | Description |
@@ -39,7 +41,7 @@
 | `itemId` | String | Foreign Key | `Item.id`参照 |
 | `action` | ActionType | - | 状態変更(貸出/返却/修理/廃棄) |
 | `reason` | String? | - | 変更理由 |
-| `createdBy` | String | Foreign Key | `Users.name`参照 |
+| `cretaedBy` | String | Foreign Key | `Users.id`参照 |
 | `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 
 ### 2.3 `users` Table
@@ -59,10 +61,11 @@
 | Field Name | Data Type | Attributes | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | ユニーク主キー |
+| `classId` | String | Foreign Key | `Class.id`参照 |
 | `name` | String | - | フィールド名 |
 | `type` | FieldType | - | 入力タイプ(TEXT/SELECT) |
 | `options` | Json | - | SELECTの選択肢 |
-| `createdBy` | String | Foreign Key | `Users.name`参照 |
+| `cretaedBy` | String | Foreign Key | `Users.id`参照 |
 | `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 
 ### 2.5 `class` Table
@@ -72,7 +75,7 @@
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | ユニーク主キー |
 | `name` | String | - | フィールド名 |
-| `createdBy` | String | Foreign Key | `Users.name`参照 |
+| `cretaedBy` | String | Foreign Key | `Users.id`参照 |
 | `createdAt` | DateTime | `@default(now())` | 作成日時記録 |
 
 ---
