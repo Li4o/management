@@ -36,23 +36,83 @@ export const createItem = async (req: Request, res: Response) => {
                 createdBy,
             },
         });
+
+        res.status(201).json({ success: true, data: newItem });
+
     } catch (error) {
         console.error('❌ Error creating item:', error);
         res.status(500).json({ success: false, error: String(error) });  
     }
 }
 
-// GET: Fitch the item detail
+// GET: Fetch the item detail
+export const getItemById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const item = await prisma.item.findUnique({ where: { id } });
 
+        if (!item) {
+            return res.status(404).json({ success: false, error: 'Item not found' });
+        }
+
+        res.status(200).json({ success: true, data: item });
+    } catch (error) {
+        console.error('❌ Error fetching item by ID:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
 
 // PUT: Update an existing item
+export const updateItem = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const updateData = req.body;
 
+        const updatedItem = await prisma.item.update({
+            where: { id },
+            data: updateData,
+        });
 
-// DELETE: Delete an item
+        res.status(200).json({ success: true, data: updatedItem });
+    } catch (error) {
+        console.error('❌ Error updating item:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
 
+// DELETE: Delete a item
+export const deleteItem = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' });
+        }
+
+        const deletedItem = await prisma.item.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ success: true, data: deletedItem });
+    } catch (error) {
+        console.error('❌ Error deleting item:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// ==========================================
 // Asset Logs
+// ==========================================
+// Asset Logs
+// GET: Fetch all asset logs
 
-// Users
+
+// GET: Fetch asset logs detail
+
+
+// ==========================================
+// User
+// ==========================================
 // GET: Fetch all users
 export const getUsers = async (req: Request, res: Response) => {
     try {
@@ -77,7 +137,18 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 };
 
-// POST: Create a new user
+// GET: Fetch user detail
+
+
+// PUT: Update an user
+
+
+// DELETE: Delete an user
+
+// ==========================================
+// Authentication
+// ==========================================
+// POST: User registration
 export const createUser = async (req: Request, res: Response) => {
     try {
         const { name, email, password } = req.body;
@@ -106,7 +177,21 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-// Custom Field
+// POST: User login
+
+
+// ==========================================
+// user(me)
+// ==========================================
+// GET: Fetch the current logged-in user
+
+
+// PUT: Update the current logged-in user
+
+
+// ==========================================
+// Custom Fields
+// ==========================================
 // Get: Fetch all custom fields
 export const getCustomFields = async (req:Request, res:Response) => {
     try {
@@ -164,7 +249,9 @@ export const deleteCustomField = async (req: Request, res: Response) => {
     }
 }
 
+// ==========================================
 // Class
+// ==========================================
 // GET: Fetch all classes
 export const getClasses = async (req: Request, res: Response) => {
     try {
@@ -199,3 +286,17 @@ export const createClass = async (req: Request, res: Response) => {
         res.status(500).json({ succuess: false, error: String(error) });
     }
 };
+
+// PUT: Update a class
+
+
+// DELETE: Delete a class
+
+
+// ==========================================
+// Log
+// ==========================================
+// GET: Fetch all logs
+
+
+// GET: Fetch log detail
