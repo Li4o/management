@@ -2,7 +2,9 @@ import type { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma.js';
 
+// ==========================================
 // Item
+// ==========================================
 // Get: Fetch all items
 export const getItems = async (req: Request, res: Response) => {
     try {
@@ -19,13 +21,18 @@ export const getItems = async (req: Request, res: Response) => {
 // POST: Create a new item
 export const createItem = async (req: Request, res: Response) => {
     try {
-        const { name, category, status, createdBy } = req.body;
+        const { classId, assetTag, name, category, status, location, customFields, description, createdBy } = req.body;
 
         const newItem = await prisma.item.create({
             data: {
+                classId,
+                assetTag,
                 name,
                 category,
                 status,
+                location,
+                customFields,
+                description,
                 createdBy,
             },
         });
