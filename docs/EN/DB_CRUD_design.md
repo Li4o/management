@@ -20,6 +20,7 @@ Stores standard item details alongside dynamic custom fiels values.
 | Field Name | Data Type | Attributes | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | Unique Primary Key |
+| `classId` | String | Foreign Key | Reference `Class.id` |
 | `assetTag` | String? | `@unique` | Asset Tag Number (e.g. EQ-2026-001) |
 | `name` | String | - | Equipment Name |
 | `category` | String? | - | Category (e.g. Camera, Lens) |
@@ -27,6 +28,7 @@ Stores standard item details alongside dynamic custom fiels values.
 | `location` | String? | - | Storage Location |
 | `customFields` | Json? | - | Dynamic JSON fields |
 | `description` | String? | - | Notes / Specs |
+| `cretaedBy` | String | Foreign Key | Reference `Users.id` |
 | `createdAt` | DateTime | `@default(now())` | Record Creation Timestamp |
 | `updatedAt` | DateTime | `@updatedAt` | Record Update Timestamp |
 
@@ -39,7 +41,7 @@ Tracks check-outs, check-ins, and maintenance history for each equipment item.
 | `itemId` | String | Foreign Key | References `Item.id` |
 | `action` | ActionType | - | Action (CHECK_OUT / CHECK_IN / MAINTENANCE) |
 | `reason` | String? | - | Purpose or Note |
-| `createdBy` | String | Foreign Key | References `Users.name` |
+| `createdBy` | String | Foreign Key | References `Users.id` |
 | `createdAt` | DateTime | `@default(now())` | Timestamp of the log |
 
 ### 2.3 `users` Table
@@ -59,10 +61,11 @@ Defines dynamic input fields (e.g., "Storage Location", "Serial Number") and the
 | Field Name | Data Type | Attributes | Description |
 | :--- | :--- | :--- | :--- |
 | `id` | String | `@id @default(uuid())` | Unique Primary Key |
+| `classId` | String | Foreign Key | Reference `Class.id` |
 | `name` | String | - | Field name |
 | `type` | FieldType | - | Input type (TEXT / SELECT) |
 | `options` | Json | - | Options of SELECT |
-| `createdBy` | String | Foreign Key | References `Users.name` |
+| `createdBy` | String | Foreign Key | References `Users.id` |
 | `createdAt` | DateTime | `@default(now())` | Timestamp of the log |
 
 ### 2.5 `class` Table
@@ -73,7 +76,7 @@ Store class data.
 | `id` | String | `@id @default(uuid())` | Unique Primary Key |
 | `name` | String | - | Class name |
 | `description` | String? | - | Notes |
-| `createdBy` | String | Foreign Key | References `Users.name` |
+| `createdBy` | String | Foreign Key | References `Users.id` |
 | `createdAt` | DateTime | `@default(now())` | Timestamp of the log |
 
 ---

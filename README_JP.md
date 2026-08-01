@@ -82,11 +82,37 @@
 
 ```text
 .
-├── 00.doc/            # アーキテクチャ仕様・設計ドキュメント
-│   ├── UI_design.md
-│   └── DB_CRUD_design.md
-├── 01.src/            # アプリケーションソースコード
-│   ├── client/        # フロントエンド(React・TypeScript)
-│   └── server/        # バックエンド(Node.js・TypeScript)
-├── README.md          # 主要ドキュメント(英語)
-└── README_JP.md       # 主要ドキュメント(日本語)
+├── docs/                       # アーキテクチャ仕様・設計ドキュメント
+│   ├── DB_CRUD_design.md       # データベース・API設計書
+│   ├── setup.md                # 環境構築手順書
+│   ├── TODO.md                 # ロードマップ・タスク一覧
+│   └── UI_design.md
+│
+├── src/                        # アプリケーションソースコード
+│   ├── client/                 # フロントエンド(React・TypeScript・Vite)
+│   │   ├── src/                # Reactソースコード(components, pages)
+│   │   ├── public/             # 静的アセット(favicon, images)
+│   │   ├── package.json        # フロントエンドのライブラリとスクリプト設定
+│   │   ├── tsconfig.json       # React向けTypeScript設定
+│   │   └── vite.config.ts      # Vite bundler設定
+│   │
+│   └── server/                 # バックエンド(Node.js・Express・TypeScript)
+│       ├── prisma/             # Prisma ORM設定・データベースマイグレーション
+│       │   ├── migrations/     # データベースマイグレーション履歴
+│       │   ├── schema.prisma   # PostgreSQLデータベーススキーム
+│       │   └── seed.ts         # 初期データベーススクリプト
+│       ├── src/                # バックエンドアプリケーションロジック
+│       │   ├── controllers/    # ハンドラリクエスト (User, Class, Item, Custom Fields)
+│       │   ├── routes/         # APIエンドポイント
+│       │   ├── middleware/     # ミドルウェア設定(Auth, error handling)
+│       │   ├── lib/            # 共有ユーティリティ・Prisma クライアント
+│       │   └── index.ts        # サーバーエントリーポイント
+│       │
+│       ├── package.json        # バックエンドのライブラリとスクリプト設定
+│       ├── package-lock.json   # ライブラリのバージョン固定
+│       ├── prisma.config.ts    # Prismaの設定
+│       └── tsconfig.json       # サーバー向けTypeScript設定
+│
+├── README.md                   # 主要ドキュメント(英語)
+└── README_JP.md                # 主要ドキュメント(日本語)
+```

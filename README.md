@@ -87,26 +87,37 @@ All API endpoints are prefixed with `/api/v1`.
 
 ```text
 .
-├── docs/            # Architecture specifications & design docs
-│   ├── DB_CRUD_design.md
-│   ├── setup.md
-│   ├── TODO.md
-│   └── DB_CRUD_design.md
+├── docs/                       # Specifications & design documentation
+│   ├── DB_CRUD_design.md       # Database & API design
+│   ├── setup.md                # Development setup guide
+│   ├── TODO.md                 # Project roadmap & remaining tasks
+│   └── UI_design.md
 │
-├── src/            # Application source code
-│   ├── client/        # React + TypeScript Frontend
-│   └── server/        # Node.js + TypeScript Backend
-│       ├── prisma/
-│       │   ├── schema.prisma
-│       │   └── seed.ts
-│       └── src/
-│           ├── controllers/
-│           │   └── userController.ts
-│           ├── lib/
-│           │   └── prisma.ts
-│           ├── routes/
-│           │   └── userRoutes.ts
-│           └── index.ts
-├── README.md          # Primary project documentation (English)
-└── README_JP.md       # Japanese project overview
+├── src/                        # Application source code
+│   ├── client/                 # Frontend (React + TypeScript + Vite)
+│   │   ├── src/                # React source code (components, pages)
+│   │   ├── public/             # Static assets (favicon, images)
+│   │   ├── package.json        # Frontend dependencies & scripts
+│   │   ├── tsconfig.json       # TypeScript config for React
+│   │   └── vite.config.ts      # Vite bundler configuration
+│   │
+│   └── server/                 # Backend (Node.js + Express + TypeScript)
+│       ├── prisma/             # Prisma ORM configuration & database migrations
+│       │   ├── migrations/     # Database migration history
+│       │   ├── schema.prisma   # PostgreSQL database schema
+│       │   └── seed.ts         # Initial database seed script
+│       ├── src/                # Backend Application Logic
+│       │   ├── controllers/    # Request handlers (User, Class, Item, Custom Fields)
+│       │   ├── routes/         # Express API endpoints
+│       │   ├── middleware/     # Custom middleware (Auth, error handling)
+│       │   ├── lib/            # Shared utilities & Prisma client
+│       │   └── index.ts        # Express server entry point
+│       │
+│       ├── package.json        # Backend dependencies & scripts
+│       ├── package-lock.json   # Locked dependency versions
+│       ├── prisma.config.ts    # Prisma configuration
+│       └── tsconfig.json       # TypeScript configuration for server
+│
+├── README.md                   # Primary project documentation (English)
+└── README_JP.md                # Japanese project overview
 ```

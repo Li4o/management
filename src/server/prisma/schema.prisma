@@ -14,6 +14,7 @@ generator client {
 // Item table
 model Item {
   id            String      @id @default(uuid())
+  classId       String
   assetTag      String?     @unique
   name          String
   category      String
@@ -21,25 +22,29 @@ model Item {
   location      String
   customFields  Json?  
   description   String?
+  createdBy     String
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
   Logs     AssetLog[]
+
+  class Class     @relation(fields: [classId], references: [id])
+  users Users     @relation(fields: [createdBy], references: [id])
 
   @@map("items")
 }
 
 // Asset Logs
 model AssetLog {
-  id        String      @id @default(uuid())
-  itemId    String
-  action    ActionType
-  reason    String
-  createdBy String
-  createdAt DateTime    @default(now())
+  id          String      @id @default(uuid())
+  itemId      String
+  action      ActionType
+  reason      String
+  createdBy   String
+  createdAt   DateTime    @default(now())
 
-  item    Item        @relation(fields: [itemId], references: [id], onDelete: Cascade)
-  users   Users       @relation(fields: [createdBy], references: [id])
+  item  Item        @relation(fields: [itemId], references: [id])
+  users Users       @relation(fields: [createdBy], references: [id])
 
   @@map("assetLogs")
 }
@@ -55,6 +60,7 @@ model Users {
   Logs    AssetLog[]
   Field   CustomFields[]
   Class   Class[]
+  Item    Item[]
 
   @@map("users")
 }
@@ -62,13 +68,15 @@ model Users {
 // Custom Field
 model CustomFields {
   id        String        @id @default(uuid())
+  classId   String
   name      String
   type      FieldType
   options   Json
   createdBy String
   createdAt DateTime      @default(now())
 
-  users   Users       @relation(fields: [createdBy], references: [id])
+  class Class       @relation(fields: [classId], references: [id])
+  users Users       @relation(fields: [createdBy], references: [id])
 
   @@map("customField")
 }
@@ -81,7 +89,10 @@ model Class {
   createdBy   String
   createdAt   DateTime      @default(now())
 
-  users   Users       @relation(fields: [createdBy], references: [id])
+  users Users       @relation(fields: [createdBy], references: [id])
+
+  Item        Item[]
+  customField CustomFields[]
 
   @@map("classes")
 }
