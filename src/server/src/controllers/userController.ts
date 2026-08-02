@@ -165,7 +165,14 @@ export const getUsers = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const id = req.params.id as string;
-        const user = await prisma.users.findUnique({ where: { id } });
+        const user = await prisma.users.findUnique({ 
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+            }});
 
         if (!user) {
             return res.status(404).json({ success: false, error: 'User not found' });
@@ -279,7 +286,7 @@ export const loginUser = async (req: Request, res: Response) => {
 // GET: Fetch the current logged-in user
 export const getCurrentUser = async (req: Request, res: Response) => {
     try {
-        const userId = req.user.id; // Assuming you have middleware that sets req.user 
+        const userId = (req as any).user?.id; // Assuming you have middleware that sets req.user 
 
         const user = await prisma.users.findUnique({ where: { id: userId } });
 
@@ -297,7 +304,7 @@ export const getCurrentUser = async (req: Request, res: Response) => {
 // PUT: Update the current logged-in user
 export const updateCurrentUser = async (req: Request, res: Response) => {
     try {
-        const userId = req.user.id; // Assuming you have middleware that sets req.user 
+        const userId = (req as any).user?.id; // Assuming you have middleware that sets req.user
         const updateData = req.body;
 
         const updatedUser = await prisma.users.update({
@@ -332,13 +339,14 @@ export const getCustomFields = async (req:Request, res:Response) => {
 // POST: Create a new custom field
 export const createCustomField = async (req: Request, res: Response) => {
     try {
-        const { name, type, options, createdBy } = req.body;
+        const { name, type, options, classId, createdBy } = req.body;
 
         const newCustomField = await prisma.customFields.create({
             data: {
                 name,
                 type,
                 options,
+                classId,
                 createdBy,
             },
         });
@@ -446,11 +454,3 @@ export const deleteClass = async (req: Request, res: Response) => {
         res.status(500).json({ success: false, error: String(error) });
     }
 };
-
-// ==========================================
-// Log
-// ==========================================
-// GET: Fetch all logs
-
-
-// GET: Fetch log detail
