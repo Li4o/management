@@ -277,10 +277,40 @@ export const loginUser = async (req: Request, res: Response) => {
 // user(me)
 // ==========================================
 // GET: Fetch the current logged-in user
+export const getCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user.id; // Assuming you have middleware that sets req.user 
 
+        const user = await prisma.users.findUnique({ where: { id: userId } });
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, data: user });
+    } catch (error) {
+        console.error('❌ Error fetching current user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // PUT: Update the current logged-in user
+export const updateCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const userId = req.user.id; // Assuming you have middleware that sets req.user 
+        const updateData = req.body;
 
+        const updatedUser = await prisma.users.update({
+            where: { id: userId },
+            data: updateData,
+        });
+
+        res.status(200).json({ success: true, data: updatedUser });
+    } catch (error) {
+        console.error('❌ Error updating current user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // ==========================================
 // Custom Fields
@@ -381,10 +411,41 @@ export const createClass = async (req: Request, res: Response) => {
 };
 
 // PUT: Update a class
+export const updateClass = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const updateData = req.body;
 
+        const updatedClass = await prisma.class.update({
+            where: { id },
+            data: updateData,
+        });
+        res.status(200).json({ success: true, data: updatedClass });
+    } catch (error) {
+        console.error('❌ Error updating class:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // DELETE: Delete a class
+export const deleteClass = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
 
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' });
+        }
+
+        const deletedClass = await prisma.class.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ success: true, data: deletedClass });
+    } catch (error) {
+        console.error('❌ Error deleting class:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // ==========================================
 // Log
