@@ -397,6 +397,23 @@ export const getClasses = async (req: Request, res: Response) => {
     }
 };
 
+// GET: Fetch class detail
+export const getClassById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const classData = await prisma.class.findUnique({ where: { id } });
+
+        if (!classData) {
+            return res.status(404).json({ success: false, error: 'Class not found' });
+        }
+
+        res.status(200).json({ success: true, data: classData });
+    } catch (error) {
+        console.error('❌ Error fetching class by ID:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
 // POST: Create a new class
 export const createClass = async (req: Request, res: Response) => {
     try {
