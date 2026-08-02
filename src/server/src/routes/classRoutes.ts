@@ -1,5 +1,5 @@
 import { Router }  from 'express';
-import { getClasses, createClass, updateClass, deleteClass } from '../controllers/userController.js';
+import { getClasses, getClassById, createClass, updateClass, deleteClass } from '../controllers/userController.js';
 import customFieldRoutes from './customFieldRoutes.js';
 
 const router = Router();
@@ -9,6 +9,9 @@ router.get('/', getClasses);
 
 // POST /api/v1/classes
 router.post('/', createClass);
+
+// GET /api/v1/classes/:id
+router.get('/:id', getClassById);
 
 // PUT /api/v1/classes/:id
 router.put('/:id', updateClass);
