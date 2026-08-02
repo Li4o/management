@@ -249,7 +249,29 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 // POST: User login
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const { email, password } = req.body;
 
+        const user = await prisma.users.findUnique({ where: { email } });
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ success: false, error: 'Invalid password' });
+        }
+
+        res.status(200).json({ success: true, data: { id: user.id, name: user.name, email: user.email } });
+
+    } catch (error) {
+        console.error('❌ Error logging in user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // ==========================================
 // user(me)
