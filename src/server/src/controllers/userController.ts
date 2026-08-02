@@ -162,12 +162,59 @@ export const getUsers = async (req: Request, res: Response) => {
 };
 
 // GET: Fetch user detail
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const user = await prisma.users.findUnique({ where: { id } });
 
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, data: user });
+    } catch (error) {
+        console.error('❌ Error fetching user by ID:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // PUT: Update an user
+export const updateUser = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const updateData = req.body;
 
+        const updatedUser = await prisma.users.update({
+            where: { id },
+            data: updateData,
+        });
+
+        res.status(200).json({ success: true, data: updatedUser });
+    } catch (error) {
+        console.error('❌ Error updating user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // DELETE: Delete an user
+export const deleteUser = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' });
+        }
+
+        const deletedUser = await prisma.users.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ success: true, data: deletedUser });
+    } catch (error) {
+        console.error('❌ Error deleting user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
 
 // ==========================================
 // Authentication
