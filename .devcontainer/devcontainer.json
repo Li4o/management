@@ -6,6 +6,5 @@
       "version": "15"
     }
   },
-  "forwardPorts": [5000, 5432],
-  "postCreateCommand": "npm install"
+  "forwardPorts": [5000, 5432]
 }
