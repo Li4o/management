@@ -2,11 +2,141 @@ import type { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma.js';
 
+// ==========================================
 // Item
+// ==========================================
+// Get: Fetch all items
+export const getItems = async (req: Request, res: Response) => {
+    try {
+        const items = await prisma.item.findMany();
+        
+        res.status(200).json({ success: true, data: items});
 
+    } catch (error) {
+        console.error('❌ Error fetching items:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
+
+// POST: Create a new item
+export const createItem = async (req: Request, res: Response) => {
+    try {
+        const { classId, assetTag, name, category, status, location, customFields, description, createdBy } = req.body;
+
+        const newItem = await prisma.item.create({
+            data: {
+                classId,
+                assetTag,
+                name,
+                category,
+                status,
+                location,
+                customFields,
+                description,
+                createdBy,
+            },
+        });
+
+        res.status(201).json({ success: true, data: newItem });
+
+    } catch (error) {
+        console.error('❌ Error creating item:', error);
+        res.status(500).json({ success: false, error: String(error) });  
+    }
+}
+
+// GET: Fetch the item detail
+export const getItemById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const item = await prisma.item.findUnique({ where: { id } });
+
+        if (!item) {
+            return res.status(404).json({ success: false, error: 'Item not found' });
+        }
+
+        res.status(200).json({ success: true, data: item });
+    } catch (error) {
+        console.error('❌ Error fetching item by ID:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
+
+// PUT: Update an existing item
+export const updateItem = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const updateData = req.body;
+
+        const updatedItem = await prisma.item.update({
+            where: { id },
+            data: updateData,
+        });
+
+        res.status(200).json({ success: true, data: updatedItem });
+    } catch (error) {
+        console.error('❌ Error updating item:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
+
+// DELETE: Delete a item
+export const deleteItem = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' });
+        }
+
+        const deletedItem = await prisma.item.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ success: true, data: deletedItem });
+    } catch (error) {
+        console.error('❌ Error deleting item:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// ==========================================
 // Asset Logs
+// ==========================================
+// Asset Logs
+// GET: Fetch all asset logs
+export const getAssetLogs = async (req: Request, res: Response) => {
+    try {
+        const logs = await prisma.assetLog.findMany(); 
 
-// Users
+        res.status(200).json({ success: true, data: logs });
+
+    } catch (error) {
+        console.error('❌ Error fetching asset logs:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+}
+
+// GET: Fetch asset logs detail
+export const getAssetLogById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const log = await prisma.assetLog.findUnique({ where: { id } });
+
+        if (!log) {
+            return res.status(404).json({ success: false, error: 'Asset log not found' });
+        }
+
+        res.status(200).json({ success: true, data: log });
+    } catch (error) {
+        console.error('❌ Error fetching asset log by ID:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// ==========================================
+// User
+// ==========================================
 // GET: Fetch all users
 export const getUsers = async (req: Request, res: Response) => {
     try {
@@ -31,7 +161,72 @@ export const getUsers = async (req: Request, res: Response) => {
     }
 };
 
-// POST: Create a new user
+// GET: Fetch user detail
+export const getUserById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const user = await prisma.users.findUnique({ 
+            where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createdAt: true,
+            }});
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, data: user });
+    } catch (error) {
+        console.error('❌ Error fetching user by ID:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// PUT: Update an user
+export const updateUser = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const updateData = req.body;
+
+        const updatedUser = await prisma.users.update({
+            where: { id },
+            data: updateData,
+        });
+
+        res.status(200).json({ success: true, data: updatedUser });
+    } catch (error) {
+        console.error('❌ Error updating user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// DELETE: Delete an user
+export const deleteUser = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' });
+        }
+
+        const deletedUser = await prisma.users.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ success: true, data: deletedUser });
+    } catch (error) {
+        console.error('❌ Error deleting user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// ==========================================
+// Authentication
+// ==========================================
+// POST: User registration
 export const createUser = async (req: Request, res: Response) => {
     try {
         const { name, email, password } = req.body;
@@ -60,7 +255,73 @@ export const createUser = async (req: Request, res: Response) => {
     }
 };
 
-// Custom Field
+// POST: User login
+export const loginUser = async (req: Request, res: Response) => {
+    try {
+        const { email, password } = req.body;
+
+        const user = await prisma.users.findUnique({ where: { email } });
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({ success: false, error: 'Invalid password' });
+        }
+
+        res.status(200).json({ success: true, data: { id: user.id, name: user.name, email: user.email } });
+
+    } catch (error) {
+        console.error('❌ Error logging in user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// ==========================================
+// user(me)
+// ==========================================
+// GET: Fetch the current logged-in user
+export const getCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user?.id; // Assuming you have middleware that sets req.user 
+
+        const user = await prisma.users.findUnique({ where: { id: userId } });
+
+        if (!user) {
+            return res.status(404).json({ success: false, error: 'User not found' });
+        }
+
+        res.status(200).json({ success: true, data: user });
+    } catch (error) {
+        console.error('❌ Error fetching current user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// PUT: Update the current logged-in user
+export const updateCurrentUser = async (req: Request, res: Response) => {
+    try {
+        const userId = (req as any).user?.id; // Assuming you have middleware that sets req.user
+        const updateData = req.body;
+
+        const updatedUser = await prisma.users.update({
+            where: { id: userId },
+            data: updateData,
+        });
+
+        res.status(200).json({ success: true, data: updatedUser });
+    } catch (error) {
+        console.error('❌ Error updating current user:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// ==========================================
+// Custom Fields
+// ==========================================
 // Get: Fetch all custom fields
 export const getCustomFields = async (req:Request, res:Response) => {
     try {
@@ -78,13 +339,14 @@ export const getCustomFields = async (req:Request, res:Response) => {
 // POST: Create a new custom field
 export const createCustomField = async (req: Request, res: Response) => {
     try {
-        const { name, type, options, createdBy } = req.body;
+        const { name, type, options, classId, createdBy } = req.body;
 
         const newCustomField = await prisma.customFields.create({
             data: {
                 name,
                 type,
                 options,
+                classId,
                 createdBy,
             },
         });
@@ -118,7 +380,9 @@ export const deleteCustomField = async (req: Request, res: Response) => {
     }
 }
 
+// ==========================================
 // Class
+// ==========================================
 // GET: Fetch all classes
 export const getClasses = async (req: Request, res: Response) => {
     try {
@@ -129,6 +393,23 @@ export const getClasses = async (req: Request, res: Response) => {
 
     } catch (error) {
         console.error('❌ Error fetching classes:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// GET: Fetch class detail
+export const getClassById = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const classData = await prisma.class.findUnique({ where: { id } });
+
+        if (!classData) {
+            return res.status(404).json({ success: false, error: 'Class not found' });
+        }
+
+        res.status(200).json({ success: true, data: classData });
+    } catch (error) {
+        console.error('❌ Error fetching class by ID:', error);
         res.status(500).json({ success: false, error: String(error) });
     }
 };
@@ -151,5 +432,42 @@ export const createClass = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('❌ Error creating classes:', error);
         res.status(500).json({ succuess: false, error: String(error) });
+    }
+};
+
+// PUT: Update a class
+export const updateClass = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+        const updateData = req.body;
+
+        const updatedClass = await prisma.class.update({
+            where: { id },
+            data: updateData,
+        });
+        res.status(200).json({ success: true, data: updatedClass });
+    } catch (error) {
+        console.error('❌ Error updating class:', error);
+        res.status(500).json({ success: false, error: String(error) });
+    }
+};
+
+// DELETE: Delete a class
+export const deleteClass = async (req: Request, res: Response) => {
+    try {
+        const id = req.params.id as string;
+
+        if (!id) {
+            return res.status(400).json({ success: false, error: 'ID is required' });
+        }
+
+        const deletedClass = await prisma.class.delete({
+            where: { id },
+        });
+
+        res.status(200).json({ success: true, data: deletedClass });
+    } catch (error) {
+        console.error('❌ Error deleting class:', error);
+        res.status(500).json({ success: false, error: String(error) });
     }
 };

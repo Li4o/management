@@ -22,12 +22,24 @@ async function main() {
 
     console.log(`👤 Created user: ${testUser.name}`);
 
-    // 2. Create custom field
+    // 2. Create test class
+    const testClass = await prisma.class.create({
+        data: {
+            name:       `Test Class`,
+            description:`A test class for seeding`,
+            createdBy:  testUser.id,
+        },
+    });
+
+    console.log(`🏫 Created class: ${testClass.name}`);
+
+    // 3. Create custom field
     const locationField = await prisma.customFields.create({
         data: {
-            name:       `Locatin`,
+            name:       `Location`,
             type:       `SELECT`,
             options:    [`Warehouse A`, `Warehouse B`, `Office 3F`],
+            classId:    testClass.id,
             createdBy:  testUser.id,
         },
     });
@@ -37,13 +49,14 @@ async function main() {
             name:       `SerialNumber`,
             type:       `TEXT`,
             options:    [],
+            classId:    testClass.id,
             createdBy:  testUser.id, 
         },
     });
 
     console.log('🏷️ Created custom field definitions.');
 
-    // 3. Create test item
+    // 4. Create test item
     const item1 = await prisma.item.create({
         data: {
             assetTag:   'NB-2026-001',
@@ -52,6 +65,8 @@ async function main() {
             status:     'AVAILABLE',
             location:   'Office3F',
             description:'M3 Max / 32GB RAM',
+            classId:testClass.id,
+            createdBy:  testUser.id,
             customFields: {
                 Location:       'Office3F',
                 SerialNumber:   'C02G1234MD6R',
@@ -67,6 +82,8 @@ async function main() {
             status:     'IN_USE',
             location:   'WarehouseA',
             description:'Main camera',
+            classId:     testClass.id,
+            createdBy:   testUser.id,
             customFields: {
                 Location:       'WarehouseA',
                 SerialNumber:   'S01-98765432',
@@ -76,7 +93,7 @@ async function main() {
 
     console.log(`📦 Created items: ${item1.name}, ${item2.name}`);
 
-    // 4. Create assetLog
+    // 5. Create assetLog
     await prisma.assetLog.create({
         data: {
             itemId:     item2.id,
