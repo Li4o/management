@@ -18,11 +18,11 @@ app.use(cors());
 app.use(express.json());
 
 // Mount Routes
-app.use('/api/v1/logs', assetLogRoutes);
+app.use('/api/v1/classes/:classId/logs', assetLogRoutes);
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/classes', classRoutes);
-app.use('/api/v1/custom-fields', customFieldRoutes);
-app.use('/api/v1/items', itemRoutes);
+app.use('/api/v1/classes/:classId/custom-fields', customFieldRoutes);
+app.use('/api/v1/classes/:classId/items', itemRoutes);
 app.use('/api/v1/users', userMeRoutes);
 app.use('/api/v1/users', userRoutes);
 

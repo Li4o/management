@@ -7,21 +7,21 @@ import {
     deleteItem 
 } from '../controllers/userController.js';
 
-const router = Router();
+const router = Router({ mergeParams: true });
 
-// GET /api/v1/items
+// GET /api/v1/classes/:classId/items
 router.get('/', getItems);
 
-// POST /api/v1/items
+// POST /api/v1/classes/:classId/items
 router.post('/', createItem);
 
-// GET /api/v1/items/:id
+// GET /api/v1/classes/:classId/items/:id
 router.get('/:id', getItemById);
 
-// PUT /api/v1/items/:id
+// PUT /api/v1/classes/:classId/items/:id
 router.put('/:id', updateItem);
 
-// DELETE /api/v1/items/:id
+// DELETE /api/v1/classes/:classId/items/:id
 router.delete('/:id', deleteItem);
 
 export default router;

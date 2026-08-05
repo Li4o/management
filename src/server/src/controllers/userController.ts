@@ -21,7 +21,8 @@ export const getItems = async (req: Request, res: Response) => {
 // POST: Create a new item
 export const createItem = async (req: Request, res: Response) => {
     try {
-        const { classId, assetTag, name, category, status, location, customFields, description, createdBy } = req.body;
+        const classId = req.params.classId as string;
+        const { assetTag, name, category, status, location, customFields, description, createdBy } = req.body;
 
         const newItem = await prisma.item.create({
             data: {
