@@ -340,7 +340,8 @@ export const getCustomFields = async (req:Request, res:Response) => {
 // POST: Create a new custom field
 export const createCustomField = async (req: Request, res: Response) => {
     try {
-        const { name, type, options, classId, createdBy } = req.body;
+        const classId = req.params.classId as string;
+        const { name, type, options, createdBy } = req.body;
 
         const newCustomField = await prisma.customFields.create({
             data: {
