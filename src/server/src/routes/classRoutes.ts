@@ -1,5 +1,5 @@
 import { Router }  from 'express';
-import { getClasses, getClassById, createClass, updateClass, deleteClass } from '../controllers/userController.js';
+import { getClasses, getClassById, createClass, updateClass, deleteClass } from '../controllers/classController.js';
 import customFieldRoutes from './customFieldRoutes.js';
 
 const router = Router();

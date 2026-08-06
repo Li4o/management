@@ -1,5 +1,5 @@
 import { Router }  from 'express';
-import { getCustomFields, createCustomField, deleteCustomField } from '../controllers/userController.js';
+import { getCustomFields, createCustomField, deleteCustomField } from '../controllers/customFieldsController.js';
 
 const router = Router({ mergeParams: true });
 

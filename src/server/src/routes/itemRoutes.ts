@@ -1,11 +1,5 @@
 import { Router } from 'express';
-import { 
-    getItems, 
-    createItem, 
-    getItemById, 
-    updateItem, 
-    deleteItem 
-} from '../controllers/userController.js';
+import { getItems, createItem, getItemById, updateItem, deleteItem } from '../controllers/itemController.js';
 
 const router = Router({ mergeParams: true });
 

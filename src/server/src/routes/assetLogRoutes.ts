@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getAssetLogs, getAssetLogById } from '../controllers/userController.js';
+import { getAssetLogs, getAssetLogById } from '../controllers/logController.js';
 
 const router = Router();
 
