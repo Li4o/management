@@ -111,6 +111,9 @@ enum ActionType {
   CHECK_IN
   MAINTENANCE
   DISPOSED
+  CREATE
+  UPDATE
+  DELETE
 }
 
 // Field Type
