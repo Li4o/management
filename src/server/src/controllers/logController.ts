@@ -1,23 +1,24 @@
 import type { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
+import { ActionType } from '@prisma/client';
 import { prisma } from '../lib/prisma.js';
 
 interface CreateLogParams {
-    itemId?: string;
-    action: string;
-    details: string;
-    performedBy: string;
+    itemId: string;
+    action: ActionType;
+    reason?: string;
+    createdBy: string;
 }
 
 // POST: Create a asset logs by call
-export const createAssetLog = async ({ itemId, action, details, performedBy }: CreateLogParams) => {
+export const createAssetLog = async ({ itemId, action, reason, createdBy }: CreateLogParams) => {
     try {
         return await prisma.assetLog.create({
             data: {
                 itemId,
                 action,
-                details,
-                performedBy,
+                reason,
+                createdBy,
             },
         });
     } catch (error) {
